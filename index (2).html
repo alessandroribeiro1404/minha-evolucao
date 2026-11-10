@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#090d0b"><title>Minha Evolução</title><style>
+:root{color-scheme:dark;font-family:system-ui,-apple-system,Segoe UI,sans-serif}*{box-sizing:border-box}body{margin:0;background:#080c0a;color:#f3fff6}main{max-width:760px;margin:auto;padding:22px 16px 90px}header{display:flex;align-items:center;justify-content:space-between}h1{font-size:1.8rem;margin:4px 0}h2{font-size:1.1rem;margin:0 0 14px}.muted{color:#a5b7aa;font-size:.88rem}.logo{font-weight:900;color:#50ef84;letter-spacing:.12em}.pill{background:#153923;color:#7cffab;border-radius:30px;padding:8px 12px;font-size:.8rem}.hero{margin:22px 0;background:linear-gradient(120deg,#153c27,#0d1711);border:1px solid #27653d;border-radius:20px;padding:22px}.hero strong{font-size:1.6rem}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.card{background:#121a15;border:1px solid #27382b;border-radius:16px;padding:16px;margin:12px 0}.metric{font-size:1.6rem;font-weight:800;color:#6af69a}.tabs{display:flex;gap:7px;overflow-x:auto;padding:8px 0}.tabs button{white-space:nowrap}.tabs button.active{background:#42db76;color:#061108}button{background:#213d2a;color:#eaffed;border:0;border-radius:11px;padding:12px 15px;font-weight:700;cursor:pointer}button.primary{background:#4ee17e;color:#07140b}input,select,textarea{width:100%;background:#0b120e;color:#fff;border:1px solid #36543c;border-radius:10px;padding:12px;margin:6px 0 12px;font:inherit}label{font-size:.9rem;color:#c2d9c7}.hidden{display:none}.entry{padding:11px 0;border-bottom:1px solid #29402e}.entry:last-child{border:0}.row{display:flex;gap:9px;align-items:center}.row>*{flex:1}.chat{height:280px;overflow:auto;background:#0a120d;border-radius:12px;padding:12px;margin-bottom:10px}.bubble{max-width:90%;padding:10px 12px;border-radius:12px;margin:8px 0;background:#203527}.bubble.me{background:#185d32;margin-left:auto}.notice{font-size:.83rem;color:#a6b9aa}footer{margin-top:30px;color:#819b87;font-size:.75rem;text-align:center}@media(min-width:650px){.grid{grid-template-columns:repeat(3,1fr)}}
+
+.plan-item{padding:13px 0;border-bottom:1px solid #26342b}.plan-item:last-child{border-bottom:0}.plan-head{display:flex;justify-content:space-between;gap:12px;align-items:center}.plan-head strong{color:#dfffea}.plan-item small{display:block;color:#aebbb2;margin-top:5px;line-height:1.55}.plan-item input[type=checkbox]{width:22px;height:22px;accent-color:#36dc79;flex-shrink:0}.subtle{color:#aebbb2;font-size:13px}.summary{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.summary span{background:#183323;border:1px solid #285b3b;border-radius:999px;padding:7px 11px;color:#a5f5bf;font-size:13px}.hint{font-size:12px;color:#aebbb2;line-height:1.5}
+.week-controls,.week-days{display:flex;gap:6px;align-items:center}
+.week-controls{justify-content:space-between}
+.week-controls button{padding:9px 11px}
+.week-days{margin-top:10px}
+.week-days button{flex:1;min-width:0;padding:8px 2px;font-size:.8rem}
+.week-days button[aria-pressed=true]{background:#42db76;color:#061108}
+.week-days small{display:block;font-size:.75rem;margin-top:2px;color:inherit}
+.workout-video{color:#a5f5bf;font-weight:750}
+.workout-item .plan-head input{margin:0}
+.workout-item details{margin-top:8px}
+.workout-item summary{color:#c2d9c7;cursor:pointer;padding:5px 0}
+.workout-item details form{margin-top:10px}
+.workout-item details .row{flex-wrap:wrap;align-items:start}
+.workout-item details .row>*{min-width:110px}
+.workout-item details ul{padding-left:20px;margin:6px 0}
+.load-status{margin-left:8px}
+</style></head><body><main><header><div><div class="logo">MINHA EVOLUÇÃO</div><div class="muted">Seu progresso, um dia de cada vez</div></div><span class="pill">● Em evolução</span></header><section class="hero"><div class="muted">BEM-VINDO À SUA JORNADA</div><strong>Você consegue. 💚</strong><p>Registre suas conquistas e acompanhe sua evolução.</p></section><div class="grid"><div class="card"><div class="muted">Treinos</div><div class="metric" id="countWorkouts">0</div></div><div class="card"><div class="muted">Refeições</div><div class="metric" id="countMeals">0</div></div><div class="card"><div class="muted">Último peso</div><div class="metric" id="lastWeight">—</div></div></div><nav class="tabs" aria-label="Seções"><button class="active" data-tab="treinos">💪 Treinos</button><button data-tab="alimentacao">🥗 Alimentação</button><button data-tab="evolucao">📈 Evolução</button><button data-tab="evy">🤖 EVY</button></nav><section id="treinos"><div class="card"><h2>Treinos da semana 💪</h2>
+<p class="subtle">Escolha um dia para ver o treino e o que você já marcou. Toque no exercício para abrir o vídeo no YouTube.</p>
+<div class="week-controls">
+  <button id="previousWeek" type="button" aria-label="Semana anterior">‹</button>
+  <strong id="weekRange"></strong>
+  <button id="nextWeek" type="button" aria-label="Próxima semana">›</button>
+  <button id="currentDay" type="button">Hoje</button>
+</div>
+<div id="weekDays" class="week-days" role="group" aria-label="Dias da semana"></div>
+<div id="workoutPlan"></div><p class="hint">Plano de referência, não substitui orientação de profissional de educação física. Ajuste cargas e intensidade à sua condição e técnica.</p></div><div class="card"><h2>Registrar treino</h2><form id="workoutForm"><label>Tipo de treino<input name="tipo" placeholder="Ex.: Musculação - peito" required maxlength="80"></label><div class="row"><label>Duração (min)<input name="minutos" type="number" min="1" max="600" required></label><label>Data<input name="data" type="date" required></label></div><button class="primary" type="submit">Salvar treino</button></form></div><div class="card"><h2>Meus treinos</h2><div id="workoutList" class="muted">Nenhum treino registrado.</div></div></section><section id="alimentacao" class="hidden"><div class="card"><h2>Seu cardápio diário 🥗</h2><p class="subtle">Cinco refeições com porções e calorias aproximadas. Marque o que consumiu hoje.</p><div class="summary"><span>Meta inicial: ~2.600 kcal/dia</span><span>5 refeições</span></div><div id="mealPlan"></div><p class="hint">Estimativa inicial, não prescrição nutricional. Calorias variam conforme marcas e preparo; confirme o plano com nutricionista, especialmente antes de mudanças intensas.</p></div><div class="card"><h2>Registrar refeição</h2><form id="mealForm"><label>Alimento<select name="alimento" required><option>Arroz e feijão</option><option>Frango</option><option>Carne bovina</option><option>Peixe</option><option>Ovos</option><option>Leite e iogurte</option><option>Outro</option></select></label><label>Refeição<select name="refeicao"><option>Café da manhã</option><option>Almoço</option><option>Lanche</option><option>Jantar</option></select></label><label>Observações (opcional)<input name="obs" maxlength="140" placeholder="Ex.: 2 ovos, 1 copo de leite"></label><button class="primary" type="submit">Salvar refeição</button></form></div><div class="card"><h2>Minhas refeições</h2><div id="mealList" class="muted">Nenhuma refeição registrada.</div></div></section><section id="evolucao" class="hidden"><div class="card"><h2>Registrar peso</h2><form id="weightForm"><label>Peso (kg)<input name="peso" type="number" min="20" max="500" step="0.1" required></label><label>Data<input name="data" type="date" required></label><button class="primary" type="submit">Salvar peso</button></form></div><div class="card"><h2>Histórico de peso</h2><div id="weightList" class="muted">Nenhum peso registrado.</div></div></section><section id="evy" class="hidden"><div class="card"><h2>Converse com a EVY 💚</h2><p class="notice">Esta é a versão inicial da EVY, com respostas locais. A inteligência artificial e a conversa por voz serão integradas depois.</p><div class="chat" id="chat" aria-live="polite"><div class="bubble">Oi! Eu sou a EVY 💚 Quer conversar sobre seu treino, alimentação ou motivação?</div></div><form id="chatForm"><label for="chatInput">Sua mensagem</label><input id="chatInput" maxlength="300" placeholder="Ex.: Me motive para treinar" required><button class="primary" type="submit">Enviar</button></form></div></section><footer>Seus registros ficam salvos neste navegador e neste aparelho. Não são sincronizados entre dispositivos.</footer></main><script>
+'use strict';const KEY='minha-evolucao-v1';let data;try{data=JSON.parse(localStorage.getItem(KEY))||{treinos:[],refeicoes:[],pesos:[]}}catch{data={treinos:[],refeicoes:[],pesos:[]}}for(const k of ['treinos','refeicoes','pesos'])if(!Array.isArray(data[k]))data[k]=[];const $=id=>document.getElementById(id);const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(data))}catch{alert('Não foi possível salvar neste navegador. Verifique o armazenamento disponível.')}};const safe=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));const today=()=>localDate();document.querySelectorAll('input[type=date]').forEach(el=>el.value=today());document.querySelectorAll('[data-tab]').forEach(btn=>btn.onclick=()=>{document.querySelectorAll('[data-tab]').forEach(b=>b.classList.toggle('active',b===btn));for(const id of ['treinos','alimentacao','evolucao','evy'])$(id).classList.toggle('hidden',id!==btn.dataset.tab)});function render(){ $('countWorkouts').textContent=data.treinos.length;$('countMeals').textContent=data.refeicoes.length;$('lastWeight').textContent=data.pesos.length?data.pesos.at(-1).peso+' kg':'—';$('workoutList').innerHTML=data.treinos.length?data.treinos.slice().reverse().map(x=>`<div class="entry"><b>${safe(x.tipo)}</b><div class="muted">${safe(x.minutos)} min · ${safe(x.data)}</div></div>`).join(''):'Nenhum treino registrado.';$('mealList').innerHTML=data.refeicoes.length?data.refeicoes.slice().reverse().map(x=>`<div class="entry"><b>${safe(x.alimento)}</b><div class="muted">${safe(x.refeicao)} · ${safe(x.data)} ${x.obs?'· '+safe(x.obs):''}</div></div>`).join(''):'Nenhuma refeição registrada.';$('weightList').innerHTML=data.pesos.length?data.pesos.slice().reverse().map(x=>`<div class="entry"><b>${safe(x.peso)} kg</b><div class="muted">${safe(x.data)}</div></div>`).join(''):'Nenhum peso registrado.'}function formValues(form){return Object.fromEntries(new FormData(form).entries())}function add(formId,key){const form=$(formId);form.onsubmit=e=>{e.preventDefault();data[key].push({...formValues(form),data:form.elements.data?.value||today()});save();form.reset();if(form.elements.data)form.elements.data.value=today();render()}}add('workoutForm','treinos');add('mealForm','refeicoes');add('weightForm','pesos');function bubble(msg,me=false){const el=document.createElement('div');el.className='bubble'+(me?' me':'');el.textContent=msg;$('chat').append(el);$('chat').scrollTop=$('chat').scrollHeight}function evyReply(s){s=s.toLowerCase();if(/trein|exerc|academia/.test(s))return 'O segredo é a constância! 💪 Comece no seu ritmo, registre o treino e respeite o descanso.';if(/com|aliment|refei|arroz|frango|prote/.test(s))return 'Uma alimentação variada pode ajudar na sua rotina. 🥗 Registre suas refeições e observe seus hábitos.';if(/peso|evolu|resultado/.test(s))return 'Seu progresso é mais do que um número! 📈 Registre seu peso e acompanhe a tendência com calma.';if(/desanim|motiva|cansad/.test(s))return 'Você não precisa fazer tudo perfeito. 💚 Um pequeno passo hoje já conta!';return 'Estou aqui para te acompanhar! 💚 Por enquanto respondo a assuntos básicos. Em breve teremos conversas mais naturais com IA.'}$('chatForm').onsubmit=e=>{e.preventDefault();const v=$('chatInput').value.trim();if(!v)return;bubble(v,true);$('chatInput').value='';bubble(evyReply(v))};render();
+
+// Planos pré-carregados; as marcações são armazenadas localmente por dia.
+const mealPlan=[
+ {name:'Café da manhã',time:'07:00',kcal:520,items:'3 ovos (150 g), aveia (50 g), banana (100 g), leite (200 ml)'},
+ {name:'Lanche da manhã',time:'10:00',kcal:260,items:'Iogurte natural (170 g), maçã (130 g), aveia (20 g)'},
+ {name:'Almoço',time:'13:00',kcal:790,items:'Arroz cozido (180 g), feijão (150 g), frango grelhado (200 g), legumes/salada (150 g), azeite (10 g)'},
+ {name:'Pré-treino',time:'16:30',kcal:350,items:'Batata cozida (200 g), whey protein (30 g), banana (80 g)'},
+ {name:'Jantar pós-treino',time:'20:00',kcal:680,items:'Peixe ou carne bovina magra (200 g), arroz cozido (150 g), feijão (120 g), legumes (150 g), azeite (10 g)'}
+];
+const training={
+ A:{title:'A — Peito, ombros e tríceps',ex:['Supino máquina ou reto — 3 × 10–12','Supino inclinado com halteres — 3 × 10–12','Crucifixo na máquina — 3 × 12','Desenvolvimento de ombros — 3 × 10','Elevação lateral — 3 × 12','Tríceps na polia — 3 × 12']},
+ B:{title:'B — Costas e bíceps',ex:['Puxada frontal — 3 × 10–12','Remada sentada — 3 × 10–12','Remada unilateral — 3 × 12','Face pull — 3 × 12','Rosca direta — 3 × 12','Rosca alternada — 3 × 12']},
+ C:{title:'C — Pernas e abdômen',ex:['Agachamento no banco ou leg press — 3 × 10–12','Cadeira extensora — 3 × 12','Mesa flexora — 3 × 12','Elevação pélvica — 3 × 12','Panturrilha — 3 × 15','Prancha — 3 × 20–30 s']}
+};
+const weekdays = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+const shortDays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+const trainingDays = ['', 'A', 'B', 'C', 'A', 'B', 'C'];
+const videoIds = {
+  "Supino reto com barra": "JOSzUTDpviY",
+  "Supino na máquina": "e-F32H5SF6E",
+  "Supino inclinado com halteres": "bUBJtMLnhxc",
+  "Crucifixo na máquina": "Slz8I1rybUY",
+  "Desenvolvimento de ombros": "wZBLl88pCbE",
+  "Elevação lateral": "jannLx4RxKo",
+  "Tríceps na polia": "DdNmSGiYaAI",
+  "Puxada frontal": "yzlQK3s-a_Y",
+  "Remada sentada": "g1Nl-KkUn00",
+  "Remada unilateral": "vKBji0phMZw",
+  "Face pull": "Rnc3uZMPd4s",
+  "Rosca direta": "80iPYnO-0w8",
+  "Rosca alternada": "00ilwizTCQE",
+  "Agachamento no banco": "j_242pDX-XM",
+  "Leg press": "YmKd0StxtXQ",
+  "Cadeira extensora": "T7Q56tpeonA",
+  "Mesa flexora": "a-U65d2LNyM",
+  "Elevação pélvica": "nwkXOSKGnQQ",
+  "Panturrilha": "fVGkOlkOrnA",
+  "Prancha": "1C5Rh4c68rQ"
+};
+const loadUnits = { side: 'kg por lado', total: 'kg no total', dumbbell: 'kg por halter' };
+const loadKey = 'minha-evolucao-training-loads';
+const marksKey = 'minha-evolucao-plan-marks';
+const numberFormat = new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 2 });
+const dateFormat = new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: '2-digit' });
+const longDateFormat = new Intl.DateTimeFormat('pt-BR', { dateStyle: 'short' });
+let selectedDate = new Date();
+
+function localDate(date = new Date()) {
+  return [date.getFullYear(), String(date.getMonth() + 1).padStart(2, '0'), String(date.getDate()).padStart(2, '0')].join('-');
+}
+function shiftDate(date, days) {
+  const result = new Date(date);
+  result.setDate(result.getDate() + days);
+  return result;
+}
+function readRecord(key) {
+  try {
+    return JSON.parse(localStorage.getItem(key) || '{}') || {};
+  } catch {
+    return {};
+  }
+}
+function saveMark(input) {
+  const marks = readRecord(marksKey);
+  marks[input.dataset.mark] = input.checked;
+  try {
+    localStorage.setItem(marksKey, JSON.stringify(marks));
+  } catch {
+    input.checked = !input.checked;
+    alert('Não foi possível salvar a marcação.');
+  }
+}
+
+function drawMealPlan() {
+  const date = localDate();
+  const marks = readRecord(marksKey);
+  $('mealPlan').innerHTML = mealPlan.map((meal, index) => {
+    const id = 'm-' + date + '-' + index;
+    return `<label class="plan-item plan-head"><div><strong>${meal.time} · ${meal.name}</strong><small>${meal.items}</small><small>≈ ${meal.kcal} kcal</small></div><input type="checkbox" data-mark="${id}" ${marks[id] ? 'checked' : ''} aria-label="Concluí ${meal.name}"></label>`;
+  }).join('');
+}
+$('mealPlan').addEventListener('change', event => {
+  if (event.target.matches('[data-mark]')) saveMark(event.target);
+});
+
+function videoUrl(exercise) {
+  const videoId = videoIds[exercise];
+  return videoId
+    ? 'https://www.youtube.com/watch?v=' + videoId
+    : 'https://www.youtube.com/results?search_query=' + encodeURIComponent(exercise + ' como fazer exercício');
+}
+function exerciseOptions(name) {
+  const alternatives = {
+    'Supino máquina ou reto': ['Supino reto com barra', 'Supino na máquina'],
+    'Agachamento no banco ou leg press': ['Agachamento no banco', 'Leg press']
+  };
+  return alternatives[name] || [name];
+}
+function describeLoad(record) {
+  return numberFormat.format(record.weight) + ' ' + loadUnits[record.unit];
+}
+function updateExercise(item, date) {
+  const exercise = item.querySelector('.exercise-variant')?.value || item.dataset.exercise;
+  const video = item.querySelector('.workout-video');
+  video.href = videoUrl(exercise);
+  video.title = 'YouTube · ' + exercise + ' (nova aba)';
+  const loads = readRecord(loadKey)[exercise] || {};
+  const dates = Object.keys(loads).sort().reverse();
+  const previous = dates.find(day => day < date);
+  item.querySelector('.last-load').textContent = previous
+    ? 'Carga anterior: ' + describeLoad(loads[previous]) + ' · ' + dateFormat.format(new Date(previous + 'T12:00:00'))
+    : 'Sem carga anterior registrada.';
+  const current = loads[date];
+  item.querySelector('.day-load').textContent = current ? 'Neste dia: ' + describeLoad(current) : '';
+  item.querySelector('[name=weight]').value = current?.weight ?? '';
+  item.querySelector('[name=unit]').value = current?.unit || (previous ? loads[previous].unit : 'total');
+  item.querySelector('.load-history').innerHTML = dates.length
+    ? '<ul>' + dates.map(day => `<li>${longDateFormat.format(new Date(day + 'T12:00:00'))} · ${safe(describeLoad(loads[day]))}</li>`).join('') + '</ul>'
+    : '<p>Sem registros para este exercício.</p>';
+}
+function exerciseRow(line, index, kind, date, marks) {
+  const [name, sets] = line.split(' — ');
+  const options = exerciseOptions(name);
+  const id = 't-' + date + '-' + kind + '-' + index;
+  const canRecord = date <= localDate();
+  return `<article class="plan-item workout-item" data-exercise="${safe(name)}">
+    <div class="plan-head">
+      <div><a class="workout-video" target="_blank" rel="noopener noreferrer">${safe(name)} ↗</a><small>${safe(sets)}</small></div>
+      <input type="checkbox" data-mark="${id}" ${marks[id] ? 'checked' : ''} ${canRecord ? '' : 'disabled'} aria-label="Concluí ${safe(name)}">
+    </div>
+    ${options.length > 1 ? `<label>Variação para vídeo e carga<select class="exercise-variant">${options.map(option => `<option>${safe(option)}</option>`).join('')}</select></label>` : ''}
+    <small class="last-load"></small>
+    <small class="day-load"></small>
+    <details>
+      <summary>${canRecord ? 'Registrar carga e ver histórico' : 'Ver histórico de cargas'}</summary>
+      <form ${canRecord ? '' : 'hidden'}>
+        <div class="row">
+          <label>Carga (kg)<input name="weight" type="text" inputmode="decimal" pattern="[0-9]+([,.][0-9]{1,2})?" maxlength="8" placeholder="Ex.: 30 ou 12,5" required></label>
+          <label>Como mediu<select name="unit">${Object.entries(loadUnits).map(([value, label]) => `<option value="${value}">${label}</option>`).join('')}</select></label>
+        </div>
+        <button class="primary" type="submit">Salvar carga</button><span class="load-status subtle" role="status"></span>
+      </form>
+      <div class="load-history subtle"></div>
+    </details>
+  </article>`;
+}
+function drawWorkout() {
+  const day = selectedDate.getDay();
+  const kind = trainingDays[day];
+  const date = localDate(selectedDate);
+  const monday = shiftDate(selectedDate, -((day + 6) % 7));
+  const sunday = shiftDate(monday, 6);
+  $('weekRange').textContent = dateFormat.format(monday) + ' a ' + longDateFormat.format(sunday);
+  $('weekDays').innerHTML = Array.from({length: 7}, (_, index) => {
+    const weekday = shiftDate(monday, index);
+    const weekdayDate = localDate(weekday);
+    return `<button type="button" data-offset="${index}" aria-label="${weekdays[weekday.getDay()]} ${dateFormat.format(weekday)}" aria-pressed="${date === weekdayDate}" ${weekdayDate === localDate() ? 'aria-current="date"' : ''}>${shortDays[weekday.getDay()]}<small>${dateFormat.format(weekday)}</small></button>`;
+  }).join('');
+  $('weekDays').onclick = event => {
+    const button = event.target.closest('[data-offset]');
+    if (!button) return;
+    selectedDate = shiftDate(monday, Number(button.dataset.offset));
+    drawWorkout();
+    $('weekDays').querySelector('[aria-pressed=true]').focus();
+  };
+  const plan = training[kind];
+  if (!plan) {
+    $('workoutPlan').innerHTML = '<h3>Domingo · recuperação</h3><p>Dia de descanso e recuperação. Caminhada leve é opcional.</p>';
+    return;
+  }
+  const marks = readRecord(marksKey);
+  $('workoutPlan').innerHTML = `<div class="summary"><span>${weekdays[day]} · ${dateFormat.format(selectedDate)}</span><span>Início previsto: 18h</span></div><h3>${plan.title}</h3>`
+    + plan.ex.map((line, index) => exerciseRow(line, index, kind, date, marks)).join('')
+    + '<p class="hint">Aqueça 5–10 min, use cargas confortáveis e pare diante de dor, tontura ou falta de ar fora do habitual. Não é necessário ocupar todos os 90 minutos com musculação.</p>';
+  const allLoads = readRecord(loadKey);
+  $('workoutPlan').querySelectorAll('.workout-item').forEach(item => {
+    const variant = item.querySelector('.exercise-variant');
+    if (variant) {
+      const recent = Array.from(variant.options).flatMap(option =>
+        Object.entries(allLoads[option.value] || {})
+          .filter(([day]) => day <= date)
+          .map(([day, record]) => ({ day, exercise: option.value, savedAt: record.savedAt }))
+      ).sort((a, b) => b.day.localeCompare(a.day) || b.savedAt - a.savedAt)[0];
+      if (recent) variant.value = recent.exercise;
+    }
+    updateExercise(item, date);
+  });
+}
+
+$('previousWeek').onclick = () => { selectedDate = shiftDate(selectedDate, -7); drawWorkout(); };
+$('nextWeek').onclick = () => { selectedDate = shiftDate(selectedDate, 7); drawWorkout(); };
+$('currentDay').onclick = () => { selectedDate = new Date(); drawWorkout(); };
+$('workoutPlan').addEventListener('change', event => {
+  const input = event.target;
+  if (input.matches('[data-mark]')) saveMark(input);
+  if (input.matches('.exercise-variant')) {
+    const item = input.closest('.workout-item');
+    item.querySelector('.load-status').textContent = '';
+    updateExercise(item, localDate(selectedDate));
+  }
+});
+$('workoutPlan').addEventListener('submit', event => {
+  event.preventDefault();
+  const form = event.target;
+  const item = form.closest('.workout-item');
+  const date = localDate(selectedDate);
+  if (date > localDate() || !form.reportValidity()) return;
+  const exercise = item.querySelector('.exercise-variant')?.value || item.dataset.exercise;
+  const status = item.querySelector('.load-status');
+  const weight = Number(form.elements.weight.value.replace(',', '.'));
+  const unit = form.elements.unit.value;
+  const loads = readRecord(loadKey);
+  loads[exercise] ||= {};
+  loads[exercise][date] = { weight, unit, savedAt: Date.now() };
+  try {
+    localStorage.setItem(loadKey, JSON.stringify(loads));
+  } catch {
+    status.textContent = 'Não foi possível salvar a carga.';
+    return;
+  }
+  updateExercise(item, date);
+  status.textContent = 'Carga salva.';
+});
+drawMealPlan();
+drawWorkout();
+</script></body></html>
