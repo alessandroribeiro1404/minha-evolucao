@@ -19,8 +19,17 @@
 .workout-item details .row>*{min-width:110px}
 .workout-item details ul{padding-left:20px;margin:6px 0}
 .load-status{margin-left:8px}
+.workout-animation{padding:0;background:none;text-align:left;font:inherit;text-decoration:underline}
+.workout-animation:focus-visible{outline:2px solid #7cffab;outline-offset:4px}
+#benchDemo{width:min(500px,calc(100% - 24px));max-height:calc(100% - 24px);box-sizing:border-box;border:1px solid #36543c;border-radius:20px;background:#121a15;color:#f3fff6;padding:16px}
+#benchDemo::backdrop{background:#030906d9}
+.demo-heading,.demo-controls{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.demo-heading h2{margin:0}
+.demo-controls{flex-wrap:wrap;margin-top:14px}
+.demo-controls span{color:#ffab95;font-size:.85rem}
+.bench-scene{display:block;width:100%;height:auto;border-radius:12px;background:#0b1612}
 </style></head><body><main><header><div><div class="logo">MINHA EVOLUÇÃO</div><div class="muted">Seu progresso, um dia de cada vez</div></div><span class="pill">● Em evolução</span></header><section class="hero"><div class="muted">BEM-VINDO À SUA JORNADA</div><strong>Você consegue. 💚</strong><p>Registre suas conquistas e acompanhe sua evolução.</p></section><div class="grid"><div class="card"><div class="muted">Treinos</div><div class="metric" id="countWorkouts">0</div></div><div class="card"><div class="muted">Refeições</div><div class="metric" id="countMeals">0</div></div><div class="card"><div class="muted">Último peso</div><div class="metric" id="lastWeight">—</div></div></div><nav class="tabs" aria-label="Seções"><button class="active" data-tab="treinos">💪 Treinos</button><button data-tab="alimentacao">🥗 Alimentação</button><button data-tab="evolucao">📈 Evolução</button><button data-tab="evy">🤖 EVY</button></nav><section id="treinos"><div class="card"><h2>Treinos da semana 💪</h2>
-<p class="subtle">Escolha um dia para ver o treino e o que você já marcou. Toque no exercício para abrir o vídeo no YouTube.</p>
+<p class="subtle">Escolha um dia para ver o treino e o que você já marcou. Toque no exercício para ver a demonstração.</p>
 <div class="week-controls">
   <button id="previousWeek" type="button" aria-label="Semana anterior">‹</button>
   <strong id="weekRange"></strong>
@@ -28,7 +37,54 @@
   <button id="currentDay" type="button">Hoje</button>
 </div>
 <div id="weekDays" class="week-days" role="group" aria-label="Dias da semana"></div>
-<div id="workoutPlan"></div><p class="hint">Plano de referência, não substitui orientação de profissional de educação física. Ajuste cargas e intensidade à sua condição e técnica.</p></div><div class="card"><h2>Registrar treino</h2><form id="workoutForm"><label>Tipo de treino<input name="tipo" placeholder="Ex.: Musculação - peito" required maxlength="80"></label><div class="row"><label>Duração (min)<input name="minutos" type="number" min="1" max="600" required></label><label>Data<input name="data" type="date" required></label></div><button class="primary" type="submit">Salvar treino</button></form></div><div class="card"><h2>Meus treinos</h2><div id="workoutList" class="muted">Nenhum treino registrado.</div></div></section><section id="alimentacao" class="hidden"><div class="card"><h2>Seu cardápio diário 🥗</h2><p class="subtle">Cinco refeições com porções e calorias aproximadas. Marque o que consumiu hoje.</p><div class="summary"><span>Meta inicial: ~2.600 kcal/dia</span><span>5 refeições</span></div><div id="mealPlan"></div><p class="hint">Estimativa inicial, não prescrição nutricional. Calorias variam conforme marcas e preparo; confirme o plano com nutricionista, especialmente antes de mudanças intensas.</p></div><div class="card"><h2>Registrar refeição</h2><form id="mealForm"><label>Alimento<select name="alimento" required><option>Arroz e feijão</option><option>Frango</option><option>Carne bovina</option><option>Peixe</option><option>Ovos</option><option>Leite e iogurte</option><option>Outro</option></select></label><label>Refeição<select name="refeicao"><option>Café da manhã</option><option>Almoço</option><option>Lanche</option><option>Jantar</option></select></label><label>Observações (opcional)<input name="obs" maxlength="140" placeholder="Ex.: 2 ovos, 1 copo de leite"></label><button class="primary" type="submit">Salvar refeição</button></form></div><div class="card"><h2>Minhas refeições</h2><div id="mealList" class="muted">Nenhuma refeição registrada.</div></div></section><section id="evolucao" class="hidden"><div class="card"><h2>Registrar peso</h2><form id="weightForm"><label>Peso (kg)<input name="peso" type="number" min="20" max="500" step="0.1" required></label><label>Data<input name="data" type="date" required></label><button class="primary" type="submit">Salvar peso</button></form></div><div class="card"><h2>Histórico de peso</h2><div id="weightList" class="muted">Nenhum peso registrado.</div></div></section><section id="evy" class="hidden"><div class="card"><h2>Converse com a EVY 💚</h2><p class="notice">Esta é a versão inicial da EVY, com respostas locais. A inteligência artificial e a conversa por voz serão integradas depois.</p><div class="chat" id="chat" aria-live="polite"><div class="bubble">Oi! Eu sou a EVY 💚 Quer conversar sobre seu treino, alimentação ou motivação?</div></div><form id="chatForm"><label for="chatInput">Sua mensagem</label><input id="chatInput" maxlength="300" placeholder="Ex.: Me motive para treinar" required><button class="primary" type="submit">Enviar</button></form></div></section><footer>Seus registros ficam salvos neste navegador e neste aparelho. Não são sincronizados entre dispositivos.</footer></main><script>
+<div id="workoutPlan"></div><p class="hint">Plano de referência, não substitui orientação de profissional de educação física. Ajuste cargas e intensidade à sua condição e técnica.</p></div><div class="card"><h2>Registrar treino</h2><form id="workoutForm"><label>Tipo de treino<input name="tipo" placeholder="Ex.: Musculação - peito" required maxlength="80"></label><div class="row"><label>Duração (min)<input name="minutos" type="number" min="1" max="600" required></label><label>Data<input name="data" type="date" required></label></div><button class="primary" type="submit">Salvar treino</button></form></div><div class="card"><h2>Meus treinos</h2><div id="workoutList" class="muted">Nenhum treino registrado.</div></div></section><section id="alimentacao" class="hidden"><div class="card"><h2>Seu cardápio diário 🥗</h2><p class="subtle">Cinco refeições com porções e calorias aproximadas. Marque o que consumiu hoje.</p><div class="summary"><span>Meta inicial: ~2.600 kcal/dia</span><span>5 refeições</span></div><div id="mealPlan"></div><p class="hint">Estimativa inicial, não prescrição nutricional. Calorias variam conforme marcas e preparo; confirme o plano com nutricionista, especialmente antes de mudanças intensas.</p></div><div class="card"><h2>Registrar refeição</h2><form id="mealForm"><label>Alimento<select name="alimento" required><option>Arroz e feijão</option><option>Frango</option><option>Carne bovina</option><option>Peixe</option><option>Ovos</option><option>Leite e iogurte</option><option>Outro</option></select></label><label>Refeição<select name="refeicao"><option>Café da manhã</option><option>Almoço</option><option>Lanche</option><option>Jantar</option></select></label><label>Observações (opcional)<input name="obs" maxlength="140" placeholder="Ex.: 2 ovos, 1 copo de leite"></label><button class="primary" type="submit">Salvar refeição</button></form></div><div class="card"><h2>Minhas refeições</h2><div id="mealList" class="muted">Nenhuma refeição registrada.</div></div></section><section id="evolucao" class="hidden"><div class="card"><h2>Registrar peso</h2><form id="weightForm"><label>Peso (kg)<input name="peso" type="number" min="20" max="500" step="0.1" required></label><label>Data<input name="data" type="date" required></label><button class="primary" type="submit">Salvar peso</button></form></div><div class="card"><h2>Histórico de peso</h2><div id="weightList" class="muted">Nenhum peso registrado.</div></div></section><section id="evy" class="hidden"><div class="card"><h2>Converse com a EVY 💚</h2><p class="notice">Esta é a versão inicial da EVY, com respostas locais. A inteligência artificial e a conversa por voz serão integradas depois.</p><div class="chat" id="chat" aria-live="polite"><div class="bubble">Oi! Eu sou a EVY 💚 Quer conversar sobre seu treino, alimentação ou motivação?</div></div><form id="chatForm"><label for="chatInput">Sua mensagem</label><input id="chatInput" maxlength="300" placeholder="Ex.: Me motive para treinar" required><button class="primary" type="submit">Enviar</button></form></div></section><footer>Seus registros ficam salvos neste navegador e neste aparelho. Não são sincronizados entre dispositivos.</footer></main>
+<dialog id="benchDemo" aria-labelledby="benchTitle">
+  <div class="demo-heading"><h2 id="benchTitle">Supino reto com barra</h2><form method="dialog"><button type="submit" autofocus>Fechar</button></form></div>
+  <p class="subtle">Demonstração animada · banco plano</p>
+  <svg class="bench-scene" viewBox="0 0 410 260" role="img" aria-labelledby="benchDrawing">
+    <title id="benchDrawing">Boneco deitado no banco levantando e baixando a barra, com peito, ombros e tríceps destacados.</title>
+    <defs>
+      <linearGradient id="benchMetal" x2="0" y2="1" gradientUnits="objectBoundingBox">
+        <stop stop-color="#d7efe4"/><stop offset=".52" stop-color="#799f91"/><stop offset="1" stop-color="#3a5c50"/>
+      </linearGradient>
+    </defs>
+    <path d="M28 233H381M61 242H354" stroke="#234236" stroke-width="1.5"/>
+    <path d="M152 201v30m133-30v30M134 231h36m97 0h36" fill="none" stroke="#48675d" stroke-width="6" stroke-linecap="round"/>
+    <rect x="118" y="190" width="214" height="13" rx="5" fill="#38594d"/>
+    <path d="M127 192H323" stroke="#587b6c" stroke-width="2" stroke-linecap="round"/>
+    <path d="M149 176 105 165 81 218" fill="none" stroke="#526f68" stroke-width="17" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M84 216 72 228H56" fill="none" stroke="#78958a" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+    <path id="benchFarArm" fill="none" stroke="#78958a" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M144 180 111 182 109 219" fill="none" stroke="#9ebdb0" stroke-width="19" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M108 217 101 229H81" fill="none" stroke="#d1e7dd" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M131 168Q146 155 172 168L191 174Q210 163 230 156L251 152Q270 150 283 161L290 167 301 164 306 180 283 184Q262 191 235 189L166 190 140 190Q129 188 131 168Z" fill="#bed9cd" stroke="#799f91" stroke-width="1.5"/>
+    <path d="M129 169Q147 154 177 168L182 188 142 193Q132 193 127 184Z" fill="#50776a"/>
+    <path d="M191 176Q209 174 222 178M187 181 209 182" fill="none" stroke="#87aa9c" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M220 163Q240 153 254 157L260 164Q253 170 230 174Q221 171 220 163Z" fill="#f89377"/>
+    <path d="M230 175Q250 171 264 165Q274 170 274 178Q260 185 242 183Q233 181 230 175Z" fill="#ffab95"/>
+    <path d="M294 170Q292 163 297 156L303 150 306 144 311 149Q322 149 328 156Q336 165 332 177Q327 189 313 190Q302 188 298 180Z" fill="#bed9cd" stroke="#799f91" stroke-width="1.5"/>
+    <path d="M318 151Q337 152 334 175Q331 187 320 189L315 181Q325 174 322 163Z" fill="#56776c"/>
+    <path d="M306 158h3m-7 12 4 1" fill="none" stroke="#56776c" stroke-width="1.5" stroke-linecap="round"/>
+    <path id="benchNearArm" fill="none" stroke="#c7e1d4" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/>
+    <path id="benchTriceps" fill="none" stroke="#f89377" stroke-width="8" stroke-linecap="round"/>
+    <ellipse cx="260" cy="176" rx="11" ry="9" fill="#ffab95" transform="rotate(-21 260 176)"/>
+    <g id="benchBar">
+      <path d="M111 62 350 82" stroke="#264a3d" stroke-width="7" stroke-linecap="round"/>
+      <path d="M111 62 350 82" stroke="url(#benchMetal)" stroke-width="4" stroke-linecap="round"/>
+      <g transform="translate(145 65) rotate(5)">
+        <rect x="-11" y="-16" width="10" height="32" rx="4" fill="#52766a"/>
+        <rect x="-4" y="-19" width="10" height="38" rx="4" fill="#294a3e" stroke="#71968a" stroke-width="1.5"/>
+      </g>
+      <g transform="translate(327 80) rotate(5)">
+        <rect x="-11" y="-20" width="12" height="40" rx="4" fill="#294a3e" stroke="#71968a" stroke-width="1.5"/>
+        <rect x="-3" y="-17" width="11" height="34" rx="4" fill="#375c4e" stroke="#8eb5a5" stroke-width="1.5"/>
+      </g>
+      <path d="M193 69l9 1m77 6 9 1" stroke="#d6eade" stroke-width="8" stroke-linecap="round"/>
+    </g>
+  </svg>
+  <div class="demo-controls"><button id="benchPlayback" type="button">Pausar</button><span>Peito · ombros · tríceps</span></div>
+</dialog>
+<script>
 'use strict';const KEY='minha-evolucao-v1';let data;try{data=JSON.parse(localStorage.getItem(KEY))||{treinos:[],refeicoes:[],pesos:[]}}catch{data={treinos:[],refeicoes:[],pesos:[]}}for(const k of ['treinos','refeicoes','pesos'])if(!Array.isArray(data[k]))data[k]=[];const $=id=>document.getElementById(id);const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(data))}catch{alert('Não foi possível salvar neste navegador. Verifique o armazenamento disponível.')}};const safe=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));const today=()=>localDate();document.querySelectorAll('input[type=date]').forEach(el=>el.value=today());document.querySelectorAll('[data-tab]').forEach(btn=>btn.onclick=()=>{document.querySelectorAll('[data-tab]').forEach(b=>b.classList.toggle('active',b===btn));for(const id of ['treinos','alimentacao','evolucao','evy'])$(id).classList.toggle('hidden',id!==btn.dataset.tab)});function render(){ $('countWorkouts').textContent=data.treinos.length;$('countMeals').textContent=data.refeicoes.length;$('lastWeight').textContent=data.pesos.length?data.pesos.at(-1).peso+' kg':'—';$('workoutList').innerHTML=data.treinos.length?data.treinos.slice().reverse().map(x=>`<div class="entry"><b>${safe(x.tipo)}</b><div class="muted">${safe(x.minutos)} min · ${safe(x.data)}</div></div>`).join(''):'Nenhum treino registrado.';$('mealList').innerHTML=data.refeicoes.length?data.refeicoes.slice().reverse().map(x=>`<div class="entry"><b>${safe(x.alimento)}</b><div class="muted">${safe(x.refeicao)} · ${safe(x.data)} ${x.obs?'· '+safe(x.obs):''}</div></div>`).join(''):'Nenhuma refeição registrada.';$('weightList').innerHTML=data.pesos.length?data.pesos.slice().reverse().map(x=>`<div class="entry"><b>${safe(x.peso)} kg</b><div class="muted">${safe(x.data)}</div></div>`).join(''):'Nenhum peso registrado.'}function formValues(form){return Object.fromEntries(new FormData(form).entries())}function add(formId,key){const form=$(formId);form.onsubmit=e=>{e.preventDefault();data[key].push({...formValues(form),data:form.elements.data?.value||today()});save();form.reset();if(form.elements.data)form.elements.data.value=today();render()}}add('workoutForm','treinos');add('mealForm','refeicoes');add('weightForm','pesos');function bubble(msg,me=false){const el=document.createElement('div');el.className='bubble'+(me?' me':'');el.textContent=msg;$('chat').append(el);$('chat').scrollTop=$('chat').scrollHeight}function evyReply(s){s=s.toLowerCase();if(/trein|exerc|academia/.test(s))return 'O segredo é a constância! 💪 Comece no seu ritmo, registre o treino e respeite o descanso.';if(/com|aliment|refei|arroz|frango|prote/.test(s))return 'Uma alimentação variada pode ajudar na sua rotina. 🥗 Registre suas refeições e observe seus hábitos.';if(/peso|evolu|resultado/.test(s))return 'Seu progresso é mais do que um número! 📈 Registre seu peso e acompanhe a tendência com calma.';if(/desanim|motiva|cansad/.test(s))return 'Você não precisa fazer tudo perfeito. 💚 Um pequeno passo hoje já conta!';return 'Estou aqui para te acompanhar! 💚 Por enquanto respondo a assuntos básicos. Em breve teremos conversas mais naturais com IA.'}$('chatForm').onsubmit=e=>{e.preventDefault();const v=$('chatInput').value.trim();if(!v)return;bubble(v,true);$('chatInput').value='';bubble(evyReply(v))};render();
 
 // Planos pré-carregados; as marcações são armazenadas localmente por dia.
@@ -128,14 +184,79 @@ function exerciseOptions(name) {
   };
   return alternatives[name] || [name];
 }
+const benchDemo = $('benchDemo');
+const benchPlayback = $('benchPlayback');
+const benchBar = $('benchBar');
+const benchNearArm = $('benchNearArm');
+const benchFarArm = $('benchFarArm');
+const benchTriceps = $('benchTriceps');
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
+let benchFrame = null;
+let benchElapsed = 0;
+let benchStarted = 0;
+
+function drawBench(elapsed) {
+  // Keep the hands attached to the bar throughout the repetition.
+  const depth = (1 - Math.cos(elapsed * 2 * Math.PI / 3800)) / 2;
+  const x = -12 * depth;
+  const y = 77 * depth;
+  const nearElbowX = 274 + 40 * depth;
+  const nearElbowY = 125 + 49 * depth;
+  const farElbowX = 216 - 48 * depth;
+  const farElbowY = 111 + 51 * depth;
+  benchBar.setAttribute('transform', 'translate(' + x + ' ' + y + ')');
+  benchNearArm.setAttribute('d', `M260 176 L${nearElbowX} ${nearElbowY} L${284 + x} ${77 + y}`);
+  benchFarArm.setAttribute('d', `M246 163 L${farElbowX} ${farElbowY} L${198 + x} ${70 + y}`);
+  benchTriceps.setAttribute('d', `M266 175 L${260 + (nearElbowX - 260) * .8} ${176 + (nearElbowY - 176) * .8}`);
+}
+function animateBench(now) {
+  drawBench(benchElapsed + now - benchStarted);
+  benchFrame = requestAnimationFrame(animateBench);
+}
+function playBench() {
+  benchStarted = performance.now();
+  benchPlayback.textContent = 'Pausar';
+  benchFrame = requestAnimationFrame(animateBench);
+}
+function pauseBench() {
+  if (benchFrame !== null) {
+    cancelAnimationFrame(benchFrame);
+    benchElapsed += performance.now() - benchStarted;
+    benchFrame = null;
+  }
+  benchPlayback.textContent = 'Reproduzir';
+}
+benchPlayback.addEventListener('click', () => {
+  if (benchFrame === null) playBench();
+  else pauseBench();
+});
+benchDemo.addEventListener('close', pauseBench);
+
+function openBenchDemo() {
+  benchElapsed = 0;
+  drawBench(0);
+  benchDemo.showModal();
+  if (reduceMotion.matches) pauseBench();
+  else playBench();
+}
+
 function describeLoad(record) {
   return numberFormat.format(record.weight) + ' ' + loadUnits[record.unit];
 }
 function updateExercise(item, date) {
   const exercise = item.querySelector('.exercise-variant')?.value || item.dataset.exercise;
   const video = item.querySelector('.workout-video');
-  video.href = videoUrl(exercise);
-  video.title = 'YouTube · ' + exercise + ' (nova aba)';
+  const hasAnimation = exercise === 'Supino reto com barra';
+  const animation = item.querySelector('.workout-animation');
+  video.hidden = hasAnimation;
+  animation.hidden = !hasAnimation;
+  if (hasAnimation) {
+    animation.onclick = openBenchDemo;
+  } else {
+    video.href = videoUrl(exercise);
+    video.textContent = exercise + ' ↗';
+    video.title = 'YouTube · ' + exercise + ' (nova aba)';
+  }
   const loads = readRecord(loadKey)[exercise] || {};
   const dates = Object.keys(loads).sort().reverse();
   const previous = dates.find(day => day < date);
@@ -157,10 +278,14 @@ function exerciseRow(line, index, kind, date, marks) {
   const canRecord = date <= localDate();
   return `<article class="plan-item workout-item" data-exercise="${safe(name)}">
     <div class="plan-head">
-      <div><a class="workout-video" target="_blank" rel="noopener noreferrer">${safe(name)} ↗</a><small>${safe(sets)}</small></div>
+      <div>
+        <a class="workout-video" target="_blank" rel="noopener noreferrer"></a>
+        <button type="button" class="workout-video workout-animation" aria-haspopup="dialog" hidden>Supino reto com barra · ver animação</button>
+        <small>${safe(sets)}</small>
+      </div>
       <input type="checkbox" data-mark="${id}" ${marks[id] ? 'checked' : ''} ${canRecord ? '' : 'disabled'} aria-label="Concluí ${safe(name)}">
     </div>
-    ${options.length > 1 ? `<label>Variação para vídeo e carga<select class="exercise-variant">${options.map(option => `<option>${safe(option)}</option>`).join('')}</select></label>` : ''}
+    ${options.length > 1 ? `<label>Variação do exercício e da carga<select class="exercise-variant">${options.map(option => `<option>${safe(option)}</option>`).join('')}</select></label>` : ''}
     <small class="last-load"></small>
     <small class="day-load"></small>
     <details>
