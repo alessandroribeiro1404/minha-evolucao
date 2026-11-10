@@ -40,46 +40,52 @@
 <div id="workoutPlan"></div><p class="hint">Plano de referência, não substitui orientação de profissional de educação física. Ajuste cargas e intensidade à sua condição e técnica.</p></div><div class="card"><h2>Registrar treino</h2><form id="workoutForm"><label>Tipo de treino<input name="tipo" placeholder="Ex.: Musculação - peito" required maxlength="80"></label><div class="row"><label>Duração (min)<input name="minutos" type="number" min="1" max="600" required></label><label>Data<input name="data" type="date" required></label></div><button class="primary" type="submit">Salvar treino</button></form></div><div class="card"><h2>Meus treinos</h2><div id="workoutList" class="muted">Nenhum treino registrado.</div></div></section><section id="alimentacao" class="hidden"><div class="card"><h2>Seu cardápio diário 🥗</h2><p class="subtle">Cinco refeições com porções e calorias aproximadas. Marque o que consumiu hoje.</p><div class="summary"><span>Meta inicial: ~2.600 kcal/dia</span><span>5 refeições</span></div><div id="mealPlan"></div><p class="hint">Estimativa inicial, não prescrição nutricional. Calorias variam conforme marcas e preparo; confirme o plano com nutricionista, especialmente antes de mudanças intensas.</p></div><div class="card"><h2>Registrar refeição</h2><form id="mealForm"><label>Alimento<select name="alimento" required><option>Arroz e feijão</option><option>Frango</option><option>Carne bovina</option><option>Peixe</option><option>Ovos</option><option>Leite e iogurte</option><option>Outro</option></select></label><label>Refeição<select name="refeicao"><option>Café da manhã</option><option>Almoço</option><option>Lanche</option><option>Jantar</option></select></label><label>Observações (opcional)<input name="obs" maxlength="140" placeholder="Ex.: 2 ovos, 1 copo de leite"></label><button class="primary" type="submit">Salvar refeição</button></form></div><div class="card"><h2>Minhas refeições</h2><div id="mealList" class="muted">Nenhuma refeição registrada.</div></div></section><section id="evolucao" class="hidden"><div class="card"><h2>Registrar peso</h2><form id="weightForm"><label>Peso (kg)<input name="peso" type="number" min="20" max="500" step="0.1" required></label><label>Data<input name="data" type="date" required></label><button class="primary" type="submit">Salvar peso</button></form></div><div class="card"><h2>Histórico de peso</h2><div id="weightList" class="muted">Nenhum peso registrado.</div></div></section><section id="evy" class="hidden"><div class="card"><h2>Converse com a EVY 💚</h2><p class="notice">Esta é a versão inicial da EVY, com respostas locais. A inteligência artificial e a conversa por voz serão integradas depois.</p><div class="chat" id="chat" aria-live="polite"><div class="bubble">Oi! Eu sou a EVY 💚 Quer conversar sobre seu treino, alimentação ou motivação?</div></div><form id="chatForm"><label for="chatInput">Sua mensagem</label><input id="chatInput" maxlength="300" placeholder="Ex.: Me motive para treinar" required><button class="primary" type="submit">Enviar</button></form></div></section><footer>Seus registros ficam salvos neste navegador e neste aparelho. Não são sincronizados entre dispositivos.</footer></main>
 <dialog id="benchDemo" aria-labelledby="benchTitle">
   <div class="demo-heading"><h2 id="benchTitle">Supino reto com barra</h2><form method="dialog"><button type="submit" autofocus>Fechar</button></form></div>
-  <p class="subtle">Demonstração animada · banco plano</p>
-  <svg class="bench-scene" viewBox="0 0 410 260" role="img" aria-labelledby="benchDrawing">
-    <title id="benchDrawing">Boneco deitado no banco levantando e baixando a barra, com peito, ombros e tríceps destacados.</title>
+  <p class="subtle">Demonstração animada · vista de cima</p>
+  <svg class="bench-scene" viewBox="0 0 410 298" role="img" aria-labelledby="benchDrawing">
+    <title id="benchDrawing">Vista de cima do supino reto. O boneco está deitado no banco e levanta a barra com as duas mãos. Peito, ombros e tríceps aparecem em coral.</title>
     <defs>
-      <linearGradient id="benchMetal" x2="0" y2="1" gradientUnits="objectBoundingBox">
-        <stop stop-color="#d7efe4"/><stop offset=".52" stop-color="#799f91"/><stop offset="1" stop-color="#3a5c50"/>
+      <linearGradient id="benchPadding" x2="0%" y2="100%">
+        <stop stop-color="#34544a"/><stop offset="1" stop-color="#20362e"/>
       </linearGradient>
+      <linearGradient id="benchMetal" x2="0%" y2="100%">
+        <stop stop-color="#e3f5ee"/><stop offset="1" stop-color="#819f94"/>
+      </linearGradient>
+      <linearGradient id="benchSkin" x2="0%" y2="100%">
+        <stop stop-color="#d3e9df"/><stop offset="1" stop-color="#91b4a6"/>
+      </linearGradient>
+      <g id="benchPlate">
+        <rect x="-13" y="-23" width="8" height="46" rx="3" fill="#37594e"/>
+        <rect x="-6" y="-25" width="11" height="50" rx="4" fill="#284539" stroke="#7eaa99" stroke-width="1.4"/>
+        <rect x="3" y="-20" width="8" height="40" rx="3" fill="#40675a"/>
+        <path d="M-1 -19v38" stroke="#557b6e" stroke-width="1.5" stroke-linecap="round"/>
+      </g>
     </defs>
-    <path d="M28 233H381M61 242H354" stroke="#234236" stroke-width="1.5"/>
-    <path d="M152 201v30m133-30v30M134 231h36m97 0h36" fill="none" stroke="#48675d" stroke-width="6" stroke-linecap="round"/>
-    <rect x="118" y="190" width="214" height="13" rx="5" fill="#38594d"/>
-    <path d="M127 192H323" stroke="#587b6c" stroke-width="2" stroke-linecap="round"/>
-    <path d="M149 176 105 165 81 218" fill="none" stroke="#526f68" stroke-width="17" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M84 216 72 228H56" fill="none" stroke="#78958a" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
-    <path id="benchFarArm" fill="none" stroke="#78958a" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M144 180 111 182 109 219" fill="none" stroke="#9ebdb0" stroke-width="19" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M108 217 101 229H81" fill="none" stroke="#d1e7dd" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M131 168Q146 155 172 168L191 174Q210 163 230 156L251 152Q270 150 283 161L290 167 301 164 306 180 283 184Q262 191 235 189L166 190 140 190Q129 188 131 168Z" fill="#bed9cd" stroke="#799f91" stroke-width="1.5"/>
-    <path d="M129 169Q147 154 177 168L182 188 142 193Q132 193 127 184Z" fill="#50776a"/>
-    <path d="M191 176Q209 174 222 178M187 181 209 182" fill="none" stroke="#87aa9c" stroke-width="1.5" stroke-linecap="round"/>
-    <path d="M220 163Q240 153 254 157L260 164Q253 170 230 174Q221 171 220 163Z" fill="#f89377"/>
-    <path d="M230 175Q250 171 264 165Q274 170 274 178Q260 185 242 183Q233 181 230 175Z" fill="#ffab95"/>
-    <path d="M294 170Q292 163 297 156L303 150 306 144 311 149Q322 149 328 156Q336 165 332 177Q327 189 313 190Q302 188 298 180Z" fill="#bed9cd" stroke="#799f91" stroke-width="1.5"/>
-    <path d="M318 151Q337 152 334 175Q331 187 320 189L315 181Q325 174 322 163Z" fill="#56776c"/>
-    <path d="M306 158h3m-7 12 4 1" fill="none" stroke="#56776c" stroke-width="1.5" stroke-linecap="round"/>
-    <path id="benchNearArm" fill="none" stroke="#c7e1d4" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/>
-    <path id="benchTriceps" fill="none" stroke="#f89377" stroke-width="8" stroke-linecap="round"/>
-    <ellipse cx="260" cy="176" rx="11" ry="9" fill="#ffab95" transform="rotate(-21 260 176)"/>
+    <path d="M52 22v254m306-254v254M26 252h358" stroke="#203a31" stroke-width="1"/>
+    <rect x="148" y="26" width="114" height="248" rx="22" fill="#07100d"/>
+    <rect x="152" y="22" width="106" height="248" rx="20" fill="url(#benchPadding)" stroke="#5b7c70" stroke-width="1.5"/>
+    <rect x="159" y="29" width="92" height="234" rx="15" fill="none" stroke="#48685c"/>
+    <path d="M167 211h76" stroke="#5b7c70" stroke-width="1"/>
+    <path d="M179 177q-15 23-36 51l-9 25m97-76q15 23 36 51l9 25" fill="none" stroke="#98baad" stroke-width="24" stroke-linecap="round"/>
+    <path d="M133 246l-8 17m152-17 8 17" fill="none" stroke="#d0e3dc" stroke-width="15" stroke-linecap="round"/>
+    <path id="benchLeftArm" fill="none" stroke="#bad5ca" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+    <path id="benchRightArm" fill="none" stroke="#bad5ca" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+    <path id="benchLeftTriceps" fill="none" stroke="#ee8c74" stroke-width="8" stroke-linecap="round"/>
+    <path id="benchRightTriceps" fill="none" stroke="#ee8c74" stroke-width="8" stroke-linecap="round"/>
+    <path d="M185 78h40l4 20q24 4 28 18-2 19-17 29l-6 38h-58l-6-38q-15-10-17-29 4-14 28-18z" fill="url(#benchSkin)" stroke="#71988a" stroke-width="1.5"/>
+    <path d="M175 170q30 8 60 0l4 21-11 18-23-8-23 8-11-18z" fill="#4d7466" stroke="#73988a" stroke-width="1.5"/>
+    <path d="M185 153q20 6 40 0m-37 9q17 4 34 0m-17-19v20" fill="none" stroke="#749b8d" stroke-width="1.3" stroke-linecap="round"/>
+    <path d="M174 108q12-10 29-5v27q-16 6-29-2-8-9 0-20zm62 0q-12-10-29-5v27q16 6 29-2 8-9 0-20z" fill="#ffab95"/>
+    <path d="M161 106q10-5 14 3l-4 19q-10 5-15-3-5-12 5-19zm88 0q-10-5-14 3l4 19q10 5 15-3 5-12-5-19z" fill="#ee8c74"/>
+    <path d="M184 57q-8-9-11 3 1 10 10 12m43-15q8-9 11 3-1 10-10 12" fill="#9dbdb0"/>
+    <path d="M181 58q0-24 24-26 24 2 24 26l-3 16q-4 13-21 16-17-3-21-16z" fill="url(#benchSkin)" stroke="#71988a" stroke-width="1.5"/>
+    <path d="M182 57q-3-24 19-26 26-4 28 26l-6-8q-12 4-20-4-8 8-17 7z" fill="#4c6c61"/>
+    <path d="M191 63h5m18 0h5m-14 2-2 8h4m-8 5q6 2 12 0" fill="none" stroke="#688c7e" stroke-width="1.4" stroke-linecap="round"/>
     <g id="benchBar">
-      <path d="M111 62 350 82" stroke="#264a3d" stroke-width="7" stroke-linecap="round"/>
-      <path d="M111 62 350 82" stroke="url(#benchMetal)" stroke-width="4" stroke-linecap="round"/>
-      <g transform="translate(145 65) rotate(5)">
-        <rect x="-11" y="-16" width="10" height="32" rx="4" fill="#52766a"/>
-        <rect x="-4" y="-19" width="10" height="38" rx="4" fill="#294a3e" stroke="#71968a" stroke-width="1.5"/>
-      </g>
-      <g transform="translate(327 80) rotate(5)">
-        <rect x="-11" y="-20" width="12" height="40" rx="4" fill="#294a3e" stroke="#71968a" stroke-width="1.5"/>
-        <rect x="-3" y="-17" width="11" height="34" rx="4" fill="#375c4e" stroke="#8eb5a5" stroke-width="1.5"/>
-      </g>
-      <path d="M193 69l9 1m77 6 9 1" stroke="#d6eade" stroke-width="8" stroke-linecap="round"/>
+      <path d="M58 0H352" stroke="#132c24" stroke-width="9" stroke-linecap="round"/>
+      <path d="M58 0H352" stroke="url(#benchMetal)" stroke-width="5" stroke-linecap="round"/>
+      <use href="#benchPlate" x="81"/>
+      <use href="#benchPlate" transform="translate(329 0) scale(-1 1)"/>
+      <path d="M130 0h17m116 0h17" stroke="#d6ece2" stroke-width="10" stroke-linecap="round"/>
     </g>
   </svg>
   <div class="demo-controls"><button id="benchPlayback" type="button">Pausar</button><span>Peito · ombros · tríceps</span></div>
@@ -187,27 +193,32 @@ function exerciseOptions(name) {
 const benchDemo = $('benchDemo');
 const benchPlayback = $('benchPlayback');
 const benchBar = $('benchBar');
-const benchNearArm = $('benchNearArm');
-const benchFarArm = $('benchFarArm');
-const benchTriceps = $('benchTriceps');
+const benchArms = [
+  { direction: -1, arm: $('benchLeftArm'), triceps: $('benchLeftTriceps') },
+  { direction: 1, arm: $('benchRightArm'), triceps: $('benchRightTriceps') },
+];
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
 let benchFrame = null;
 let benchElapsed = 0;
 let benchStarted = 0;
 
 function drawBench(elapsed) {
-  // Keep the hands attached to the bar throughout the repetition.
+  // Perspective makes the bar look slightly larger as it rises toward the camera.
   const depth = (1 - Math.cos(elapsed * 2 * Math.PI / 3800)) / 2;
-  const x = -12 * depth;
-  const y = 77 * depth;
-  const nearElbowX = 274 + 40 * depth;
-  const nearElbowY = 125 + 49 * depth;
-  const farElbowX = 216 - 48 * depth;
-  const farElbowY = 111 + 51 * depth;
-  benchBar.setAttribute('transform', 'translate(' + x + ' ' + y + ')');
-  benchNearArm.setAttribute('d', `M260 176 L${nearElbowX} ${nearElbowY} L${284 + x} ${77 + y}`);
-  benchFarArm.setAttribute('d', `M246 163 L${farElbowX} ${farElbowY} L${198 + x} ${70 + y}`);
-  benchTriceps.setAttribute('d', `M266 175 L${260 + (nearElbowX - 260) * .8} ${176 + (nearElbowY - 176) * .8}`);
+  const scale = 1 - .12 * depth;
+  const barY = 111 + 25 * depth;
+  benchBar.setAttribute('transform', `translate(205 ${barY}) scale(${scale}) translate(-205 0)`);
+  for (const { direction, arm, triceps } of benchArms) {
+    const shoulderX = 205 + direction * 44;
+    const shoulderY = 118;
+    const elbowX = 205 + direction * (57 + 39 * depth);
+    const elbowY = 116 + 31 * depth;
+    const gripX = 205 + direction * 66.5 * scale;
+    arm.setAttribute('d', `M${shoulderX} ${shoulderY} L${elbowX} ${elbowY} L${gripX} ${barY}`);
+    const muscleX = shoulderX + .78 * (elbowX - shoulderX);
+    const muscleY = shoulderY + .78 * (elbowY - shoulderY);
+    triceps.setAttribute('d', `M${shoulderX} ${shoulderY} L${muscleX} ${muscleY}`);
+  }
 }
 function animateBench(now) {
   drawBench(benchElapsed + now - benchStarted);
